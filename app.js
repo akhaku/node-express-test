@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
+  , io = require('socket.io')
   , http = require('http')
   , path = require('path');
 
@@ -36,6 +37,14 @@ app.get('/', routes.index);
 app.get('/home', routes.home);
 app.get('/users', user.list);
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app);
+io = io.listen(server);
+server.listen(app.get('port'), function() {
   console.log("Express server listening on port " + app.get('port'));
+});
+
+io.sockets.on('connection', function(socket) {
+  socket.on('testevent', function(data) {
+    console.log("received " + data.my);
+  });
 });
