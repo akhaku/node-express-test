@@ -1,0 +1,24 @@
+@import 'include/base';
+
+body {
+  font-size: 14px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: @gray;
+}
+
+a:link, a:visited, a:hover, a:active {
+  color: @dark-orange;
+}
+a:hover {
+  color: @orange;
+}
+
+.container {
+  width: @column-width * 25;
+  .center();
+  .box-shadow(0 0 8px rgba(50, 0, 255, 0.4));
+}
+
+.inner-container {
+  padding: @column-width / 2;
+}
