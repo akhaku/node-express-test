@@ -3,17 +3,18 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , io = require('socket.io')
-  , http = require('http')
-  , path = require('path');
+var express = require('express'),
+    routes = require('./routes'),
+    user = require('./routes/user'),
+    dispatcher = require('./routes/dispatcher');
+    io = require('socket.io'),
+    http = require('http'),
+    path = require('path');
 
 var app = express();
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 8000);
+  app.set('port', process.env.PORT || 80);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('layout', 'layouts/base');
@@ -30,11 +31,11 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+  app.set('port', 8000)
   app.use(express.errorHandler());
 });
 
 app.get('/', routes.index);
-app.get('/home', routes.home);
 app.get('/users', user.list);
 
 var server = http.createServer(app);
@@ -44,7 +45,7 @@ server.listen(app.get('port'), function() {
 });
 
 io.sockets.on('connection', function(socket) {
-  socket.on('testevent', function(data) {
-    console.log("received " + data.my);
+  socket.on('message', function(payload) {
+    dispatcher.dispatch(socket, payload);
   });
 });
