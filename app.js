@@ -45,6 +45,8 @@ server.listen(app.get('port'), function() {
 });
 
 io.sockets.on('connection', function(socket) {
+  /* Future function to attach sockets to different rooms goes here. Remember to
+  * hash the room name and store it in the socket session  */
   socket.on('message', function(payload) {
     dispatcher.dispatch(socket, payload);
   });

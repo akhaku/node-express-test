@@ -22,3 +22,10 @@ a:hover {
 .inner-container {
   padding: 16px;
 }
+.test-canvas {
+  display: block;
+  width: 600px;
+  height: 400px;
+  border: 2px dashed #00cc00;
+  margin: 0 auto;
+}
